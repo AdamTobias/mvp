@@ -5,6 +5,9 @@ var pageLoad = function(){
   var redButton = document.getElementById('redButton');
   var blackButton = document.getElementById('blackButton');
   var eraserButton = document.getElementById('eraserButton');
+  var saveButton = document.getElementById('saveButton');
+  var loadButton = document.getElementById('loadButton');
+
 
   var dragging = false;
   
@@ -40,6 +43,10 @@ var pageLoad = function(){
   eraserButton.addEventListener('click', function(){
     color = 'white';
   });
+
+  saveButton.addEventListener('click', function(){
+    
+  })
 
 }
 
