@@ -45,8 +45,57 @@ var pageLoad = function(){
   });
 
   saveButton.addEventListener('click', function(){
+    // var clone = canvasEl.cloneNode(true);
+    // var image = new Image();
+    // var source = canvasEl.toDataURL('image/png');
+    // var sourceString = source.toString();
+
+    // console.log('source = ' + typeof source + ' --- ' + source);
+
+    // image.src = source;
     
-  })
+
+    // clone.getContext('2d').drawImage(image, 0 ,0);
+    // document.querySelector('body').appendChild(clone);
+    var canvasData = canvasEl.toDataURL('image/png');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'saveData');
+    //xhr.send({imageData: canvasData});
+    xhr.send(canvasData);
+
+    xhr.onreadystatechange = function () {
+      var DONE = 4; // readyState 4 means the request is done.
+      var OK = 200; // status 200 is a successful return.
+      if (xhr.readyState === DONE) {
+        if (xhr.status === OK) {
+          console.log('Received response: ', xhr.responseText); // 'This is the returned text.'
+        } else {
+          console.log('Error: ' + xhr.status); // An error occurred during the request.
+        }
+      }
+    };
+
+  });
+
+  loadButton.addEventListener('click', function(){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'saveData');
+    //xhr.send({imageData: canvasData});
+    xhr.send();
+    
+    xhr.onreadystatechange = function () {
+      var DONE = 4; // readyState 4 means the request is done.
+      var OK = 200; // status 200 is a successful return.
+      if (xhr.readyState === DONE) {
+        if (xhr.status === OK) {
+          console.log('Received response: ', xhr.responseText); // 'This is the returned text.'
+        } else {
+          console.log('Error: ' + xhr.status); // An error occurred during the request.
+        }
+      }
+    };
+
+  });
 
 }
 

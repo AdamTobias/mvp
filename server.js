@@ -1,6 +1,7 @@
 var http = require("http");
 var handler = require("./request-handler");
 var express = require('express');
+var fs = require('fs');
 
 var port = 8080;
 var ip = "127.0.0.1";
@@ -16,7 +17,7 @@ module.exports.app = app;
 
 app.set("port", port);
 
-app.use(parser.json());
+app.use(parser.text());
 
 app.use(function(req,res,next){
   console.log('Incoming ' + req.method + ' request on ' + req.url);
@@ -30,10 +31,18 @@ app.get('/classes/chatterbox/', function(req, res){
   //console.log('I got a get request from ' + req.url + ' sending back + ' + msg);
   controller.messages.get(req,res);
 });
+*/
 
-app.post('/classes/chatterbox/', function(req, res){
-  controller.messages.post(req,res);
-});*/
+app.post('/*', function(req, res){
+  console.dir(req.body);
+
+  fs.writeFile('savedImage.txt', req.body, function(err){
+    if(err){
+      console.log('Error! ', err);
+    }
+  });
+  res.status(200).end('Got the data!');
+});
 
 // If we are being run directly, run the server.
 if (!module.parent) {
