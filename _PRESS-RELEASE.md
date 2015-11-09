@@ -17,28 +17,37 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+
+  Quick Draw
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+
+  Draw simple pictures simply!
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+
+  This product allows the user to create digital artwork from scratch.  By simply selecting tools and clicking/dragging the mouse, graphics will appear on the page as the user builds a work of art.  Users may save and load past work.
 
 ## Problem ##
-  > Describe the problem your product solves.
+
+  Computer users often have a desire to generate graphics cheaply and quickly -- perhaps to make a sign, or for teaching purposes, or for entertainment.  While professional grade art is sometimes required, often a quick and dirty graphic is sufficient.  Users do not want to spend a lot of time up-front in learning how to use drawing software and navigating a complex interface.  
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  
+  Quick Draw is lightweight, efficient, minimalist drawing app that allows users to begin creating their graphics immediately.  An intuitive interface makes for a non-existent learning curve.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+ 
+  I just want to draw some lines, not paint the Mona Lisa!
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  
+  Simply load the app and get drawing.  The default pencil tool allows for simple lines, while other tools may be selected to help produce the desired graphics.  
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  
+  Quick Draw helped turn my funny mental image into a hilarious email attachment in just 2 minutes!
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  
+  Ask Adam Grimm for the source files so you can get drawing today!
