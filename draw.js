@@ -17,6 +17,10 @@ var pageLoad = function(){
     if(dragging){
       canvas.lineTo(mouse.layerX, mouse.layerY);
       canvas.strokeStyle = color;
+      console.log(canvas.lineWidth);
+      if(color === 'white'){
+        canvas.lineWidth = 10;
+      }
       canvas.stroke();
     }
   });
