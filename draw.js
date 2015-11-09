@@ -1,12 +1,13 @@
 var pageLoad = function(){
   var canvasEl = document.querySelector('canvas');
   var canvas = canvasEl.getContext('2d');
-  var color = 'green';
+  var color = 'black';
   var redButton = document.getElementById('redButton');
   var blackButton = document.getElementById('blackButton');
   var eraserButton = document.getElementById('eraserButton');
   var saveButton = document.getElementById('saveButton');
   var loadButton = document.getElementById('loadButton');
+  var inputBar = document.querySelector('input');
 
 
   var dragging = false;
@@ -33,22 +34,27 @@ var pageLoad = function(){
 
   redButton.addEventListener('click', function(e){
     color = 'red';
+    document.getElementById('color').textContent = color;
   });
 
   blackButton.addEventListener('click', function(){
     color = 'black';
+    document.getElementById('color').textContent = color;
   });
 
   eraserButton.addEventListener('click', function(){
     color = 'white';
+    document.getElementById('color').textContent = 'eraser';
   });
 
   saveButton.addEventListener('click', function(){
     var canvasData = canvasEl.toDataURL('image/png');
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'saveData');
-    xhr.send(JSON.stringify({fileName: 'dummy name', data: canvasData}));
 
+    xhr.open('POST', inputBar.value);
+    xhr.send(JSON.stringify({data: canvasData}));
+    
+    inputBar.value = '';
     xhr.onreadystatechange = function () {
       var DONE = 4; 
       var OK = 200; 
@@ -63,8 +69,10 @@ var pageLoad = function(){
 
   loadButton.addEventListener('click', function(){
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'dummy name');
+    xhr.open('GET', inputBar.value);
     xhr.send();
+    
+    inputBar.value = '';
     
     xhr.onreadystatechange = function () {
       var DONE = 4; 

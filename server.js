@@ -1,5 +1,4 @@
 var http = require("http");
-var handler = require("./request-handler");
 var express = require('express');
 var fs = require('fs');
 
@@ -25,10 +24,7 @@ app.use(express.static(__dirname));
 
 app.get('/*', function(req, res){
 
-  
-
-  console.log('req.url = ', req.url);
-  fs.readFile(req.body.fileName + '.txt', function(err, result){
+  fs.readFile('./saved_files' + req.url + '.txt', function(err, result){
     if(err){
       console.log('Error reading file! ', err);
       res.status(404).end('Couldn\'t find that save file');
@@ -41,7 +37,7 @@ app.get('/*', function(req, res){
 
 app.post('/*', function(req, res){
   req.body = JSON.parse(req.body);
-  fs.writeFile(req.body.fileName + '.txt', req.body.data, function(err){
+  fs.writeFile('./saved_files' + req.url + '.txt', req.body.data, function(err){
     if(err){
       console.log('Error writing to file! ', err);
     }
