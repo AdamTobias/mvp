@@ -47,7 +47,7 @@ var pageLoad = function(){
     var canvasData = canvasEl.toDataURL('image/png');
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'saveData');
-    xhr.send(canvasData);
+    xhr.send(JSON.stringify({fileName: 'dummy name', data: canvasData}));
 
     xhr.onreadystatechange = function () {
       var DONE = 4; 
@@ -63,7 +63,7 @@ var pageLoad = function(){
 
   loadButton.addEventListener('click', function(){
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'saveData');
+    xhr.open('GET', 'dummy name');
     xhr.send();
     
     xhr.onreadystatechange = function () {

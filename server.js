@@ -23,8 +23,12 @@ app.use(function(req,res,next){
 app.use(express.static(__dirname));
 
 
-app.get('/saveData', function(req, res){
-  fs.readFile('savedImage.txt', function(err, result){
+app.get('/*', function(req, res){
+
+  
+
+  console.log('req.url = ', req.url);
+  fs.readFile(req.body.fileName + '.txt', function(err, result){
     if(err){
       console.log('Error reading file! ', err);
       res.status(404).end('Couldn\'t find that save file');
@@ -36,9 +40,8 @@ app.get('/saveData', function(req, res){
 
 
 app.post('/*', function(req, res){
-  console.dir(req.body);
-
-  fs.writeFile('savedImage.txt', req.body, function(err){
+  req.body = JSON.parse(req.body);
+  fs.writeFile(req.body.fileName + '.txt', req.body.data, function(err){
     if(err){
       console.log('Error writing to file! ', err);
     }
