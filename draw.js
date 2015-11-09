@@ -73,6 +73,7 @@ var pageLoad = function(){
         if (xhr.status === OK) {
           var image = new Image();
           image.src = xhr.responseText;
+          canvas.clearRect(0, 0, canvasEl.width, canvasEl.height);
           canvas.drawImage(image, 0, 0);
         } else {
           console.log('Error: ' + xhr.status);
@@ -82,6 +83,9 @@ var pageLoad = function(){
 
   });
 
+  clearButton.addEventListener('click', function(){
+    canvas.clearRect(0, 0, canvasEl.width, canvasEl.height);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', pageLoad);
