@@ -5,3 +5,10 @@ canvas {
 button {
   margin-right: 25px;
 }
+
+#weightButtons {
+  border: 1px solid black;
+  float: right;
+  width:150px;
+  margin-right: 400px;
+}
