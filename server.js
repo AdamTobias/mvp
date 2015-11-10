@@ -22,14 +22,21 @@ app.use(function(req,res,next){
 app.use(express.static(__dirname));
 
 
-app.get('/*', function(req, res){
+  app.get('/*', function(req, res){
+  // var img = new Image();
+  // img.src = './saved_files' + req.url + '.png';
 
-  fs.readFile('./saved_files' + req.url + '.txt', function(err, result){
+  fs.readFile('./saved_files' + req.url + '.png', 'base64', function(err, result){
     if(err){
       console.log('Error reading file! ', err);
       res.status(404).end('Couldn\'t find that save file');
     } else {
+      //console.log(result instanceof Buffer, ' is it a buffer?');
+      //var utf8encoded = (new Buffer(result, 'base64')).toString('utf8');
+      //var buf = new Buffer(result, 'base64');
+      console.log(result);
       res.status(200).end(result);
+      // res.status(200).end(img);
     }
   })
 });
@@ -37,7 +44,13 @@ app.get('/*', function(req, res){
 
 app.post('/*', function(req, res){
   req.body = JSON.parse(req.body);
-  fs.writeFile('./saved_files' + req.url + '.txt', req.body.data, function(err){
+  //var img = new Image();
+  //img.src = req.body.data;
+  var img = req.body.data;
+  var data = img.replace(/^data:image\/\w+;base64,/, "");
+  var buf = new Buffer(data, 'base64');
+
+  fs.writeFile('./saved_files' + req.url + '.png', buf, function(err){
     if(err){
       console.log('Error writing to file! ', err);
     }

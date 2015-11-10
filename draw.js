@@ -60,6 +60,7 @@ var pageLoad = function(){
     var xhr = new XMLHttpRequest();
 
     xhr.open('POST', inputBar.value);
+    xhr.overrideMimeType("text/plain; charset=x-user-defined")
     xhr.send(JSON.stringify({data: canvasData}));
     
     inputBar.value = '';
@@ -88,7 +89,7 @@ var pageLoad = function(){
       if (xhr.readyState === DONE) {
         if (xhr.status === OK) {
           var image = new Image();
-          image.src = xhr.responseText;
+          image.src = 'data:image/png;base64,' + xhr.responseText;
           canvas.clearRect(0, 0, canvasEl.width, canvasEl.height);
           canvas.drawImage(image, 0, 0);
         } else {
