@@ -1,13 +1,24 @@
+/* The code for this application is intentionally unstructured and inefficient.  The goal of this exercise
+ * was to gain perspective on deadlines and using a naive approach to accomplish goals in a short time.  In no
+ * way does the author endorse these techniques and practices for legitimate production grade applications. */
+
 var pageLoad = function(){
   var canvasEl = document.querySelector('canvas');
   var canvas = canvasEl.getContext('2d');
   var color = 'black';
-  var colorEl = document.getElementById('color');
   var weight = 3;
+  var shapre = 'line';
+  var colorEl = document.getElementById('color');
   var weightEl = document.getElementById('weight');
-  var redButton = document.getElementById('redButton');
-  var blackButton = document.getElementById('blackButton');
+  var shapeEl = document.getElementById('shape');
+
+  var colorButtons = document.getElementsByClassName('colorButton');
   var eraserButton = document.getElementById('eraserButton');
+
+  var lineButton = document.getElementById('lineButton');
+  var squareButton = document.getElementById('squareButton');
+  var circleButton = document.getElementById('circleButton');
+  
   var saveButton = document.getElementById('saveButton');
   var loadButton = document.getElementById('loadButton');
   var inputBar = document.querySelector('input');
@@ -40,16 +51,6 @@ var pageLoad = function(){
 
   document.addEventListener('mouseup', function(mouse){
     dragging = false;
-  });
-
-  redButton.addEventListener('click', function(e){
-    color = 'red';
-    colorEl.textContent = color;
-  });
-
-  blackButton.addEventListener('click', function(){
-    color = 'black';
-    colorEl.textContent = color;
   });
 
   eraserButton.addEventListener('click', function(){
@@ -121,6 +122,11 @@ var pageLoad = function(){
     weightEl.textContent = 'thick';
   });
 
+  squareButton.addEventListener('click', function(){
+    shape = 'square';
+    shapeEl.textContent = 'square';
+  });
+
   webLoadButton.addEventListener('click', function(){
     displayImage = new Image();
     displayImage.onload = function(){
@@ -138,27 +144,16 @@ var pageLoad = function(){
     downloader.href = canvasEl.toDataURL('image/png');
     downloader.click();
   });
+  
+  
+  for(var i = 0; i < colorButtons.length; i++){
+    colorButtons[i].addEventListener('click', function(buttonClicked){
+      color = buttonClicked.target.textContent;
+      colorEl.textContent = color;
+    });
+  }
+
 }
-
-// function saveContent(fileContents, fileName)
-// {
-//     var link = document.createElement('a');
-//     link.download = fileName;
-//     link.href = 'data:,' + fileContents;
-//     link.click();
-// }
-// save = function(filename, saveas){
-//     var $a = document.createElement('a');
-//     $a.download = saveas || 'img.jpg';
-//     $a.href = filename;
-//     $a.click();
-    
-//     // set up the manual link to see if alias works
-//     $('#manual-dl').attr( { href: filename, download: saveas } );
-// }
-
-//save("http://i.stack.imgur.com/L8rHf.png", 'img.png');
-
 
 document.addEventListener('DOMContentLoaded', pageLoad);
 

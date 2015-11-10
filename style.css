@@ -10,5 +10,12 @@ button {
   border: 1px solid black;
   float: right;
   width:150px;
-  margin-right: 400px;
+  margin-right: 350px;
+}
+
+#shapeButtons {
+  border: 1px solid black;
+  float: right;
+  width:150px;
+  margin-right: 100px;
 }
