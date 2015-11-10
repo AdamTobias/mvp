@@ -14,7 +14,9 @@ var pageLoad = function(){
   var skinnyButton = document.getElementById('skinnyButton');
   var normalButton = document.getElementById('normalButton');
   var thickButton = document.getElementById('thickButton');
-
+  var webLoadButton = document.getElementById('webLoadButton');
+  var displayImage;
+  var downloadButton = document.getElementById('DLButton');
 
   var dragging = false;
   
@@ -88,10 +90,10 @@ var pageLoad = function(){
       var OK = 200; 
       if (xhr.readyState === DONE) {
         if (xhr.status === OK) {
-          var image = new Image();
-          image.src = 'data:image/png;base64,' + xhr.responseText;
+          displayImage = new Image();
+          displayImage.src = 'data:image/png;base64,' + xhr.responseText;
           canvas.clearRect(0, 0, canvasEl.width, canvasEl.height);
-          canvas.drawImage(image, 0, 0);
+          canvas.drawImage(displayImage, 0, 0);
         } else {
           console.log('Error: ' + xhr.status);
         }
@@ -118,7 +120,45 @@ var pageLoad = function(){
     weight = 7;
     weightEl.textContent = 'thick';
   });
+
+  webLoadButton.addEventListener('click', function(){
+    displayImage = new Image();
+    displayImage.onload = function(){
+      console.dir(displayImage);
+      canvas.clearRect(0, 0, canvasEl.width, canvasEl.height);
+      canvas.drawImage(displayImage, 0, 0);
+    }
+    displayImage.src = inputBar.value;
+    inputBar.value = '';
+  });
+
+  downloadButton.addEventListener('click', function(){
+    var downloader = document.createElement('a');
+    downloader.download = 'dice.png'; 
+    downloader.href = canvasEl.toDataURL('image/png');
+    downloader.click();
+  });
 }
+
+// function saveContent(fileContents, fileName)
+// {
+//     var link = document.createElement('a');
+//     link.download = fileName;
+//     link.href = 'data:,' + fileContents;
+//     link.click();
+// }
+// save = function(filename, saveas){
+//     var $a = document.createElement('a');
+//     $a.download = saveas || 'img.jpg';
+//     $a.href = filename;
+//     $a.click();
+    
+//     // set up the manual link to see if alias works
+//     $('#manual-dl').attr( { href: filename, download: saveas } );
+// }
+
+//save("http://i.stack.imgur.com/L8rHf.png", 'img.png');
+
 
 document.addEventListener('DOMContentLoaded', pageLoad);
 

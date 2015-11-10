@@ -31,12 +31,7 @@ app.use(express.static(__dirname));
       console.log('Error reading file! ', err);
       res.status(404).end('Couldn\'t find that save file');
     } else {
-      //console.log(result instanceof Buffer, ' is it a buffer?');
-      //var utf8encoded = (new Buffer(result, 'base64')).toString('utf8');
-      //var buf = new Buffer(result, 'base64');
-      console.log(result);
       res.status(200).end(result);
-      // res.status(200).end(img);
     }
   })
 });
