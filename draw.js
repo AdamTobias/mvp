@@ -7,10 +7,13 @@ var pageLoad = function(){
   var canvas = canvasEl.getContext('2d');
   var color = 'black';
   var weight = 3;
-  var shapre = 'line';
+  var shape = 'line';
+  var shapeSize = 20;
+  var fill = false;
   var colorEl = document.getElementById('color');
   var weightEl = document.getElementById('weight');
   var shapeEl = document.getElementById('shape');
+  var fillEl = document.getElementById('fill');
 
   var colorButtons = document.getElementsByClassName('colorButton');
   var eraserButton = document.getElementById('eraserButton');
@@ -18,13 +21,16 @@ var pageLoad = function(){
   var lineButton = document.getElementById('lineButton');
   var squareButton = document.getElementById('squareButton');
   var circleButton = document.getElementById('circleButton');
+  var fillButton = document.getElementById('fillButton');
   
   var saveButton = document.getElementById('saveButton');
   var loadButton = document.getElementById('loadButton');
   var inputBar = document.querySelector('input');
+
   var skinnyButton = document.getElementById('skinnyButton');
   var normalButton = document.getElementById('normalButton');
   var thickButton = document.getElementById('thickButton');
+
   var webLoadButton = document.getElementById('webLoadButton');
   var displayImage;
   var downloadButton = document.getElementById('DLButton');
@@ -34,18 +40,40 @@ var pageLoad = function(){
   canvasEl.addEventListener('mousedown', function(e){
     e.preventDefault();  //This prevents the cursor from becoming an I-beam
     dragging = true;
-    canvas.beginPath();
+    if(shape === 'square'){
+      if(fill){
+        canvas.fillStyle = color;
+        canvas.fillRect(e.layerX - shapeSize/2, e.layerY - shapeSize/2, shapeSize, shapeSize);
+      } else {
+        canvas.beginPath();
+        canvas.rect(Math.floor(e.layerX - shapeSize/2) + 0.5, Math.floor(e.layerY - shapeSize/2)+0.5, shapeSize, shapeSize);
+        canvas.stroke();
+        canvas.closePath();
+      }
+    } else if (shape === 'line') {
+      canvas.beginPath();
+    } else if (shape === 'circle'){
+      canvas.beginPath();
+      canvas.arc(Math.floor(e.layerX - shapeSize/2)+0.5, Math.floor(e.layerY - shapeSize/2)+0.5 , shapeSize, 0, 2 * Math.PI);
+      canvas.stroke();
+      canvas.closePath();
+      if(fill){
+        canvas.fill();
+      }
+    }
   });
 
   canvasEl.addEventListener('mousemove', function(mouse){
     if(dragging){
-      canvas.lineTo(mouse.layerX, mouse.layerY);
-      canvas.strokeStyle = color;
-      canvas.lineWidth = weight;
-      if(color === 'white'){
-        canvas.lineWidth = 10;
+      if(shape === 'line'){
+        canvas.lineTo(mouse.layerX, mouse.layerY);
+        canvas.strokeStyle = color;
+        canvas.lineWidth = weight;
+        if(color === 'white'){
+          canvas.lineWidth = 10;
+        }
+        canvas.stroke();
       }
-      canvas.stroke();
     }
   });
 
@@ -109,23 +137,45 @@ var pageLoad = function(){
 
   skinnyButton.addEventListener('click', function(){
     weight = 1;
-    weightEl.textContent = 'skinny';
+    shapeSize = 10;
+    weightEl.textContent = 'Small';
   });
 
   normalButton.addEventListener('click', function(){
     weight = 3;
-    weightEl.textContent = 'normal';
+    shapeSize = 20;
+    weightEl.textContent = 'Medium';
   });
 
   thickButton.addEventListener('click', function(){
     weight = 7;
-    weightEl.textContent = 'thick';
+    shapeSize = 30;
+    weightEl.textContent = 'Big';
   });
 
   squareButton.addEventListener('click', function(){
     shape = 'square';
-    shapeEl.textContent = 'square';
+    shapeEl.textContent = 'Square';
   });
+
+  lineButton.addEventListener('click', function(){
+    shape = 'line';
+    shapeEl.textContent = 'Line';
+  });
+
+  circleButton.addEventListener('click', function(){
+    shape = 'circle';
+    shapeEl.textContent = 'Circle';
+  });
+
+  fillButton.addEventListener('click', function(){
+    fill = !fill;
+    if(fill){
+      fillEl.textContent = 'Fill';
+    } else {
+      fillEl.textContent = 'No Fill';
+    }
+  })
 
   webLoadButton.addEventListener('click', function(){
     displayImage = new Image();
@@ -149,6 +199,8 @@ var pageLoad = function(){
   for(var i = 0; i < colorButtons.length; i++){
     colorButtons[i].addEventListener('click', function(buttonClicked){
       color = buttonClicked.target.textContent;
+      canvas.strokeStyle = color;
+      canvas.fillStyle = color;
       colorEl.textContent = color;
     });
   }
