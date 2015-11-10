@@ -10,6 +10,9 @@ var pageLoad = function(){
   var shape = 'line';
   var shapeSize = 20;
   var fill = false;
+  var drag = false;
+  var startX, startY;
+
   var colorEl = document.getElementById('color');
   var weightEl = document.getElementById('weight');
   var shapeEl = document.getElementById('shape');
@@ -40,25 +43,30 @@ var pageLoad = function(){
   canvasEl.addEventListener('mousedown', function(e){
     e.preventDefault();  //This prevents the cursor from becoming an I-beam
     dragging = true;
-    if(shape === 'square'){
-      if(fill){
-        canvas.fillStyle = color;
-        canvas.fillRect(e.layerX - shapeSize/2, e.layerY - shapeSize/2, shapeSize, shapeSize);
-      } else {
+    if(drag){
+      startX = e.layerX;
+      startY = e.layerY;
+    } else {
+      if(shape === 'square'){
+        if(fill){
+          canvas.fillStyle = color;
+          canvas.fillRect(e.layerX - shapeSize/2, e.layerY - shapeSize/2, shapeSize, shapeSize);
+        } else {
+          canvas.beginPath();
+          canvas.rect(Math.floor(e.layerX - shapeSize/2) + 0.5, Math.floor(e.layerY - shapeSize/2)+0.5, shapeSize, shapeSize);
+          canvas.stroke();
+          canvas.closePath();
+        }
+      } else if (shape === 'line') {
         canvas.beginPath();
-        canvas.rect(Math.floor(e.layerX - shapeSize/2) + 0.5, Math.floor(e.layerY - shapeSize/2)+0.5, shapeSize, shapeSize);
+      } else if (shape === 'circle'){
+        canvas.beginPath();
+        canvas.arc(Math.floor(e.layerX)+0.5, Math.floor(e.layerY)+0.5 , shapeSize, 0, 2 * Math.PI);
         canvas.stroke();
         canvas.closePath();
-      }
-    } else if (shape === 'line') {
-      canvas.beginPath();
-    } else if (shape === 'circle'){
-      canvas.beginPath();
-      canvas.arc(Math.floor(e.layerX - shapeSize/2)+0.5, Math.floor(e.layerY - shapeSize/2)+0.5 , shapeSize, 0, 2 * Math.PI);
-      canvas.stroke();
-      canvas.closePath();
-      if(fill){
-        canvas.fill();
+        if(fill){
+          canvas.fill();
+        }
       }
     }
   });
@@ -78,6 +86,22 @@ var pageLoad = function(){
   });
 
   document.addEventListener('mouseup', function(mouse){
+    if(dragging && drag){
+      if(shape === 'square'){
+        canvas.beginPath();
+        canvas.rect(Math.floor(startX) + 0.5, Math.floor(startY)+0.5, Math.abs(mouse.layerX - startX), Math.abs(mouse.layerY - startY));
+        canvas.stroke();
+        canvas.closePath();
+      } else if (shape === 'circle'){
+        canvas.beginPath();
+        canvas.arc(Math.floor((startX + mouse.layerX) / 2)+0.5, Math.floor((startY + mouse.layerY) / 2)+0.5 , Math.abs((mouse.layerX - startX)/2), 0, 2 * Math.PI);
+        canvas.stroke();
+        canvas.closePath();
+      }
+      if(fill){
+        canvas.fill();
+      }
+    }
     dragging = false;
   });
 
@@ -168,6 +192,11 @@ var pageLoad = function(){
     shapeEl.textContent = 'Circle';
   });
 
+  dragButton.addEventListener('click', function(){
+    drag = !drag;
+    console.log(drag);
+  });
+
   fillButton.addEventListener('click', function(){
     fill = !fill;
     if(fill){
@@ -190,9 +219,10 @@ var pageLoad = function(){
 
   downloadButton.addEventListener('click', function(){
     var downloader = document.createElement('a');
-    downloader.download = 'dice.png'; 
+    downloader.download = inputBar.value; 
     downloader.href = canvasEl.toDataURL('image/png');
     downloader.click();
+    inputBar.value = '';
   });
   
   
