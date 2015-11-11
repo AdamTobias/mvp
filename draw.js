@@ -184,6 +184,7 @@ var pageLoad = function(){
 
   lineButton.addEventListener('click', function(){
     shape = 'line';
+    drag = false;
     shapeEl.textContent = 'Line';
   });
 
